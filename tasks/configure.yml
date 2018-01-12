@@ -8,17 +8,17 @@
   failed_when: _yum_epel__repository_status.rc == 2
   args:
     warn: False
-  when: ansible_os_family == 'RedHat' and ansible_pkg_mgr == 'yum'
+  when: ansible_pkg_mgr == 'yum'
 
 - name: Add EPEL repository
   yum:
     name:  epel-release
     state: present
-  when: ansible_os_family == 'RedHat' and ansible_pkg_mgr == 'yum' and _yum_epel__repository_status.rc != 0
+  when: ansible_pkg_mgr == 'yum' and _yum_epel__repository_status.rc != 0 and yum_epel__enabled
 
 - name: Remove EPEL repository
   yum:
     name:  epel-release
     state: absent
-  when: ansible_os_family == 'RedHat' and ansible_pkg_mgr == 'yum' and _yum_epel__repository_status.rc == 0
+  when: ansible_pkg_mgr == 'yum' and _yum_epel__repository_status.rc == 0 and not yum_epel__enabled
   notify: ['epel-clean-yum-metadata']

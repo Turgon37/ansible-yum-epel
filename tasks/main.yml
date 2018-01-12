@@ -1,0 +1,22 @@
+---
+# tasks file for yum-epel
+
+- name: Include the OS specific variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_version }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+        - 'defaults.yml'
+      skip: true
+  tags: ['always']
+
+- name: Check role availability
+  fail:
+    msg: 'This module only works on RedHat or derivatives like CentOS'
+  when: ansible_os_family != 'RedHat'
+  tags: ['always']
+
+- import_tasks: configure.yml
+  tags: ['yum-epel', 'yum-epel-configure']

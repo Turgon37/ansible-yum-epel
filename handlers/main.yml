@@ -1,0 +1,7 @@
+---
+# handlers file for yum-epel
+
+- name: epel-clean-yum-metadata
+  command: yum clean metadata
+  args:
+    warn: no

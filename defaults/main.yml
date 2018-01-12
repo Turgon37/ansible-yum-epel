@@ -1,0 +1,5 @@
+---
+# defaults file for yum-epel
+
+# Simple placeholder to allow other roles to detect this role
+yum_epel__role: True
